@@ -186,6 +186,7 @@ local lspconfig = require 'lspconfig'
 local identifiers = {
 	'lua_ls',
 	'clangd',
+	'pylsp',
 	'gdscript',
 	'ts_ls',
 	'jsonls',
