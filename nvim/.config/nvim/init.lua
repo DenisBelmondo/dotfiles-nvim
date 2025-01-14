@@ -19,6 +19,9 @@ vim.opt.wrap = false
 vim.opt.signcolumn = 'yes'
 vim.opt.cursorline = true
 vim.opt.guifont = 'Cascadia Code:h8'
+vim.opt.mouse = ''
+vim.opt.hlsearch = false
+vim.opt.ignorecase = true
 
 -- begin lazy.nvim installation
 
@@ -49,14 +52,17 @@ vim.opt.rtp:prepend(lazypath)
 -- Make sure to setup `mapleader` and `maplocalleader` before
 -- loading lazy.nvim so that mappings are correct.
 -- This is also a good place to setup other settings (vim.opt)
-vim.g.mapleader = ' '
-vim.g.manplocalleader = '\\'
+--vim.g.mapleader = ' '
+--vim.g.manplocalleader = '\\'
 
 -- end lazy.nvim installation
 
 -- Setup lazy.nvim
 require('lazy').setup {
 	spec = {
+		{
+			'NMAC427/guess-indent.nvim',
+		},
 		{
 			'lukas-reineke/indent-blankline.nvim',
 			main = 'ibl',
@@ -134,7 +140,9 @@ require('lazy').setup {
 	checker = { enabled = true },
 }
 
+require('guess-indent').setup {}
 require('ibl').setup()
+require('gitsigns').setup()
 require('mason').setup()
 
 local ls = require 'luasnip'
@@ -179,20 +187,20 @@ cmp.setup.cmdline(':', {
 	matching = { disallow_symbol_nonprefix_matching = false },
 })
 
-
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local lspconfig = require 'lspconfig'
 
-local identifiers = {
+local lsp_identifiers = {
 	'lua_ls',
+	'bashls',
 	'clangd',
-	'pylsp',
+	'jedi_language_server',
 	'gdscript',
 	'ts_ls',
 	'jsonls',
 }
 
-for _, k in pairs(identifiers) do
+for _, k in pairs(lsp_identifiers) do
 	lspconfig[k].setup {
 		capabilities = capabilities,
 	}
@@ -223,6 +231,22 @@ local my_keymaps = {
 		end,
 		nil,
 	},
+	{
+		{ 'i', 'n', 'v' },
+		'<leader>d',
+		function ()
+			vim.diagnostic.open_float()
+		end,
+		nil,
+	},
+	{
+		{ 'i', 'n', 'v' },
+		'<leader>g',
+		function ()
+			vim.lsp.buf.definition()
+		end,
+		nil,
+	}
 }
 
 for _, t in pairs(my_keymaps) do
