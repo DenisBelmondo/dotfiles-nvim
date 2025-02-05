@@ -131,7 +131,7 @@ require('lazy').setup {
 				italic_comments = true,
 				underline_links = true,
 			},
-		}
+		},
 	},
 	-- Configure any other settings here. See the documentation for more details.
 	-- colorscheme that will be used when installing plugins.
@@ -246,7 +246,47 @@ local my_keymaps = {
 			vim.lsp.buf.definition()
 		end,
 		nil,
-	}
+	},
+	{
+		{ 'i', 'n', 'v' },
+		'<leader>h',
+		function ()
+			vim.lsp.buf.hover()
+		end,
+		nil,
+	},
+	{
+		{ 'i', 's' },
+		'<C-L>',
+		function ()
+			ls.jump(1)
+		end,
+		{ silent = true },
+	},
+	{
+		{ 'i', 's' },
+		'<C-Right>',
+		function ()
+			ls.jump(1)
+		end,
+		{ silent = true },
+	},
+	{
+		{ 'i', 's' },
+		'<C-H>',
+		function ()
+			ls.jump(-1)
+		end,
+		{ silent = true },
+	},
+	{
+		{ 'i', 's' },
+		'<C-Left>',
+		function ()
+			ls.jump(-1)
+		end,
+		{ silent = true },
+	},
 }
 
 for _, t in pairs(my_keymaps) do
